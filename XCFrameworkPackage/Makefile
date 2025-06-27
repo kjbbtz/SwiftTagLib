@@ -9,6 +9,7 @@ xcframework:
 	@rm -rf Package.resolved
 	time swift-create-xcframework \
 		--platform ios \
+		--platform macos \
 		--xcconfig xcframework.xcconfig \
 		--xc-setting BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
 		--no-debug-symbols \
