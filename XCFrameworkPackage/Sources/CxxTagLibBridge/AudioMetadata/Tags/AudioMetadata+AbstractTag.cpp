@@ -37,7 +37,7 @@ AudioMetadata AudioMetadata::read_from_tag(const TagLib::Tag *tag, const Metadat
 /// fills **abstract** `TagLib::Tag` from `AudioMetadata`.
 void AudioMetadata::write_to_tag(TagLib::Tag *tag) const {
     auto empty_if_otional = [](std::optional<std::string> optional) -> TagLib::String {
-        return optional.has_value() ? TagLib::String(optional.value()) : TagLib::String();
+        return optional.has_value() ? TagLib::String(optional.value(), TagLib::String::UTF8) : TagLib::String();
     };
 
     tag->setTitle(empty_if_otional(title));

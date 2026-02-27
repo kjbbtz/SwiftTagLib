@@ -181,7 +181,7 @@ void AudioMetadata::write_to_XiphComment(TagLib::Ogg::XiphComment *tag, bool sho
         tag->removeFields(key.c_str());
         if (optional.has_value()) {
             auto string = optional.value();
-            tag->addField(key.c_str(), TagLib::String(string).toCString());
+            tag->addField(key.c_str(), TagLib::String(string, TagLib::String::UTF8));
         }
     };
 
@@ -189,7 +189,7 @@ void AudioMetadata::write_to_XiphComment(TagLib::Ogg::XiphComment *tag, bool sho
         tag->removeFields(key.c_str());
         if (optional.has_value()) {
             auto number = std::to_string(optional.value());
-            tag->addField(key.c_str(), TagLib::String(number).toCString());
+            tag->addField(key.c_str(), TagLib::String(number, TagLib::String::UTF8));
         }
     };
 
@@ -197,7 +197,7 @@ void AudioMetadata::write_to_XiphComment(TagLib::Ogg::XiphComment *tag, bool sho
         tag->removeFields(key.c_str());
         if (optional.has_value()) {
             auto flag = std::to_string(optional.value() ? 1 : 0);
-            tag->addField(key.c_str(), TagLib::String(flag).toCString());
+            tag->addField(key.c_str(), TagLib::String(flag, TagLib::String::UTF8));
         }
     };
 
@@ -228,7 +228,7 @@ void AudioMetadata::write_to_XiphComment(TagLib::Ogg::XiphComment *tag, bool sho
             auto key = item.first.c_str();
             auto value = item.second;
             tag->removeFields(key);
-            tag->addField(key, TagLib::String(value).toCString());
+            tag->addField(key, TagLib::String(value, TagLib::String::UTF8));
         }
     }
 

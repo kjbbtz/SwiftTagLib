@@ -8,11 +8,11 @@ AudioMetadata::Picture::FLACPicture AudioMetadata::Picture::convert_to_FLACPictu
     picture->setData(TagLib::ByteVector(bytes.data(), size));
     picture->setType(static_cast<TagLib::FLAC::Picture::Type>(kind));
     if (!description.empty()) {
-        picture->setDescription(TagLib::String(description));
+        picture->setDescription(TagLib::String(description, TagLib::String::UTF8));
     }
     auto [mimeType, width, height, colorDepth] = properties();
     if (!mimeType.empty()) {
-        picture->setMimeType(TagLib::String(mimeType));
+        picture->setMimeType(TagLib::String(mimeType, TagLib::String::UTF8));
     }
     if (width) {
         picture->setWidth(width);
@@ -50,12 +50,12 @@ AudioMetadata::Picture::ID3v2Picture AudioMetadata::Picture::convert_to_ID3v2Pic
     TagLib::ID3v2::AttachedPictureFrame *frame = new TagLib::ID3v2::AttachedPictureFrame();
     auto mimeType = this->mime_type();
     if (!mimeType.empty()) {
-        frame->setMimeType(TagLib::String(mimeType));
+        frame->setMimeType(TagLib::String(mimeType, TagLib::String::UTF8));
     }
     frame->setPicture(TagLib::ByteVector(bytes.data(), size));
     frame->setType((TagLib::ID3v2::AttachedPictureFrame::Type)kind);
     if (!description.empty()) {
-        frame->setDescription(TagLib::String(description));
+        frame->setDescription(TagLib::String(description, TagLib::String::UTF8));
     }
     return frame;
 }
@@ -68,7 +68,7 @@ AudioMetadata::Picture::APEPicture AudioMetadata::Picture::convert_to_APEPicture
     ) {
         TagLib::ByteVector data;
         if (!description.empty()) {
-            data.append(TagLib::String(description.c_str()).data(TagLib::String::UTF8));
+            data.append(TagLib::String(description.c_str(), TagLib::String::UTF8).data(TagLib::String::UTF8));
         }
         data.append('\0');
         data.append(TagLib::ByteVector(bytes.data(), size));

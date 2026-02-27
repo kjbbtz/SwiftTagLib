@@ -162,7 +162,7 @@ void AudioMetadata::write_to_MP4_tag(TagLib::MP4::Tag *tag, bool shouldWritePict
 
     write_string(Key::title, title);
     /// for some reason setting album as item fails?
-    auto albumTitle = this->albumTitle.has_value() ? TagLib::String(this->albumTitle.value()) : TagLib::String();
+    auto albumTitle = this->albumTitle.has_value() ? TagLib::String(this->albumTitle.value(), TagLib::String::UTF8) : TagLib::String();
     tag->setAlbum(albumTitle);
     write_string(Key::artist, artist);
     write_string(Key::genre, genre);

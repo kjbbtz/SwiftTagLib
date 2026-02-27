@@ -178,12 +178,11 @@ AudioMetadata AudioMetadata::read_from_APE_tag(const TagLib::APE::Tag *tag, cons
 void AudioMetadata::write_to_APE_tag(TagLib::APE::Tag * tag, bool shouldWritePictures) const {
     using Key = MetadataKey::APE;
 
-    #warning there's a chance where TagLib::String() used it needs to be called below with .toCString()
     auto write_string = [&tag] (const std::string key, std::optional<std::string> optional) {
         tag->removeItem(key);
         if (optional.has_value()) {
             auto string = optional.value();
-            tag->addValue(key, TagLib::String(string.c_str()));
+            tag->addValue(key, TagLib::String(string, TagLib::String::UTF8));
         }
     };
 
@@ -191,7 +190,7 @@ void AudioMetadata::write_to_APE_tag(TagLib::APE::Tag * tag, bool shouldWritePic
         tag->removeItem(key.c_str());
         if (optional.has_value()) {
             auto number = std::to_string(optional.value());
-            tag->addValue(key.c_str(), TagLib::String(number.c_str()));
+            tag->addValue(key.c_str(), TagLib::String(number, TagLib::String::UTF8));
         }
     };
 
@@ -199,7 +198,7 @@ void AudioMetadata::write_to_APE_tag(TagLib::APE::Tag * tag, bool shouldWritePic
         tag->removeItem(key.c_str());
         if (optional.has_value()) {
             auto flag = std::to_string(optional.value() ? 1 : 0);
-            tag->addValue(key.c_str(), TagLib::String(flag.c_str()));
+            tag->addValue(key.c_str(), TagLib::String(flag, TagLib::String::UTF8));
         }
     };
 
@@ -230,7 +229,7 @@ void AudioMetadata::write_to_APE_tag(TagLib::APE::Tag * tag, bool shouldWritePic
             auto key = item.first.c_str();
             auto value = item.second.c_str();
             tag->removeItem(key);
-            tag->addValue(key, TagLib::String(value));
+            tag->addValue(key, TagLib::String(value, TagLib::String::UTF8));
         }
     }
 

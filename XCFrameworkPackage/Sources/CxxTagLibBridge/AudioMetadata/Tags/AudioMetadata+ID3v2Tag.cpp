@@ -55,7 +55,7 @@ AudioMetadata AudioMetadata::read_from_ID3v2_tag(const TagLib::ID3v2::Tag *tag, 
         return (!std::string_view(string).empty()) ? std::optional<std::string>(string) : std::nullopt;
     };
 
-    auto read_string = [&metadata, &tag] (const char* key, std::optional<std::string> Type:: *memberPointer, bool isUnicode = false) {
+    auto read_string = [&metadata, &tag] (const char* key, std::optional<std::string> Type:: *memberPointer, bool isUnicode = true) {
         auto frameList = tag->frameListMap()[key];
         if (!frameList.isEmpty()) {
             auto frame = frameList.front();
@@ -145,8 +145,8 @@ AudioMetadata AudioMetadata::read_from_ID3v2_tag(const TagLib::ID3v2::Tag *tag, 
     read_string(Key::releaseDate, &Type::releaseDate, true);
     read_int_pair(Key::track, &Type::trackNumber, &Type::trackTotal);
     read_int_pair(Key::disc, &Type::discNumber, &Type::discTotal);
-    read_string(Key::composer, &Type::composer, false);
-    read_string(Key::albumArtist, &Type::albumArtist, false);
+    read_string(Key::composer, &Type::composer);
+    read_string(Key::albumArtist, &Type::albumArtist);
     read_int(Key::bpm, &Type::beatPerMinute);
 
     /// well, yeah special case
@@ -192,7 +192,7 @@ void AudioMetadata::write_to_ID3v2_tag(TagLib::ID3v2::Tag *tag, bool shouldWrite
     using Key = MetadataKey::ID3v2;
 
     auto empty_if_none = [](std::optional<std::string> optional) -> TagLib::String {
-        return optional.has_value() ? TagLib::String(optional.value()) : TagLib::String();
+        return optional.has_value() ? TagLib::String(optional.value(), TagLib::String::UTF8) : TagLib::String();
     };
 
     auto write_string = [&tag] (const char* key, std::optional<std::string> optional) {
@@ -213,7 +213,7 @@ void AudioMetadata::write_to_ID3v2_tag(TagLib::ID3v2::Tag *tag, bool shouldWrite
         if (optioanl.has_value()) {
             auto frame = new TagLib::ID3v2::UserTextIdentificationFrame(TagLib::String::Latin1);
             frame->setDescription(key);
-            frame->setText(TagLib::String(optioanl.value(), TagLib::String::Latin1));
+            frame->setText(TagLib::String(optioanl.value(), TagLib::String::UTF8));
             tag->addFrame(frame);
         }
     };
@@ -245,7 +245,7 @@ void AudioMetadata::write_to_ID3v2_tag(TagLib::ID3v2::Tag *tag, bool shouldWrite
         if (optional.has_value()) {
             auto frame = new TagLib::ID3v2::TextIdentificationFrame(key, TagLib::String::Latin1);
             auto flag = std::to_string(optional.value() ? 1 : 0);
-            auto value = TagLib::String(flag);
+            auto value = TagLib::String(flag, TagLib::String::UTF8);
             frame->setText(value);
             tag->addFrame(frame);
         }
