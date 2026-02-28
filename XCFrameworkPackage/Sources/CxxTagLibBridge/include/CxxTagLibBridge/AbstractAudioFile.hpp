@@ -7,6 +7,7 @@
 #import <taglib/tfile.h>
 #import <stdexcept>
 #import <exception>
+#import <type_traits>
 
 namespace AudioFile {
     /// Abstracts away specific interaction with `TagLib::FileStream` type for descendants while requiring them to

@@ -8,28 +8,28 @@
 // MARK: - Keys
 namespace MetadataKey {
     struct APE final {
-        static constexpr std::string title = "TITLE";
-        static constexpr std::string album = "ALBUM";
-        static constexpr std::string artist = "ARTIST";
-        static constexpr std::string genre = "GENRE";
-        static constexpr std::string releaseDate = "DATE";
-        static constexpr std::string comment = "DESCRIPTION";
-        static constexpr std::string trackNumber = "TRACKNUMBER";
-        static constexpr std::string trackTotal = "TRACKTOTAL";
-        static constexpr std::string discNumber = "DISCNUMBER";
-        static constexpr std::string discTotal = "DISCTOTAL";
-        static constexpr std::string composer = "COMPOSER";
-        static constexpr std::string albumArtist = "ALBUMARTIST";
-        static constexpr std::string bpm = "BPM";
-        static constexpr std::string rating = "RATING";
-        static constexpr std::string lyrics = "LYRICS";
-        static constexpr std::string compilation = "COMPILATION";
-        static constexpr std::string isrc = "ISRC";
-        static constexpr std::string mcn = "MCN";
-        static constexpr std::string musicBrainzReleaseID = "MUSICBRAINZ_ALBUMID";
-        static constexpr std::string musicBrainzRecordingID = "MUSICBRAINZ_TRACKID";
-        static constexpr std::string coverArtFront = "COVER ART (FRONT)";
-        static constexpr std::string coverArtBack = "COVER ART (BACK)";
+        static constexpr const char* title = "TITLE";
+        static constexpr const char* album = "ALBUM";
+        static constexpr const char* artist = "ARTIST";
+        static constexpr const char* genre = "GENRE";
+        static constexpr const char* releaseDate = "DATE";
+        static constexpr const char* comment = "DESCRIPTION";
+        static constexpr const char* trackNumber = "TRACKNUMBER";
+        static constexpr const char* trackTotal = "TRACKTOTAL";
+        static constexpr const char* discNumber = "DISCNUMBER";
+        static constexpr const char* discTotal = "DISCTOTAL";
+        static constexpr const char* composer = "COMPOSER";
+        static constexpr const char* albumArtist = "ALBUMARTIST";
+        static constexpr const char* bpm = "BPM";
+        static constexpr const char* rating = "RATING";
+        static constexpr const char* lyrics = "LYRICS";
+        static constexpr const char* compilation = "COMPILATION";
+        static constexpr const char* isrc = "ISRC";
+        static constexpr const char* mcn = "MCN";
+        static constexpr const char* musicBrainzReleaseID = "MUSICBRAINZ_ALBUMID";
+        static constexpr const char* musicBrainzRecordingID = "MUSICBRAINZ_TRACKID";
+        static constexpr const char* coverArtFront = "COVER ART (FRONT)";
+        static constexpr const char* coverArtBack = "COVER ART (BACK)";
 
         using StringProperty = std::optional<std::string> AudioMetadata::*;
         static std::unordered_map<std::string, StringProperty, std::hash<std::string>> stringPropertiesByKeys() {
@@ -148,7 +148,7 @@ AudioMetadata AudioMetadata::read_from_APE_tag(const TagLib::APE::Tag *tag, cons
                 continue;;
             }
         } else if(TagLib::APE::Item::Binary == item.type()) {
-            if (key == Key::coverArtFront || key == Key::coverArtBack) {
+            if (std::strcmp(key, Key::coverArtFront) == 0 || std::strcmp(key, Key::coverArtBack) == 0) {
                 ++metadata.attachedPicturesCount;
                 /// if theres no need to read pictures skip this step.
                 if (options & MetadataReadingOptions::skipPictures) {
@@ -234,8 +234,8 @@ void AudioMetadata::write_to_APE_tag(TagLib::APE::Tag * tag, bool shouldWritePic
     }
 
     // Album art
-    tag->removeItem(Key::coverArtFront.c_str());
-    tag->removeItem(Key::coverArtBack.c_str());
+    tag->removeItem(Key::coverArtFront);
+    tag->removeItem(Key::coverArtBack);
 
     if (shouldWritePictures && !attachedPictures.empty()) {
         for (auto picture: attachedPictures) {

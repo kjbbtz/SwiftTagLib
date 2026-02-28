@@ -8,29 +8,29 @@
 // MARK: - Keys
 namespace MetadataKey {
     struct XIPHComment final {
-        static constexpr std::string title = "TITLE";
-        static constexpr std::string album = "ALBUM";
-        static constexpr std::string artist = "ARTIST";
-        static constexpr std::string genre = "GENRE";
-        static constexpr std::string releaseDate = "DATE";
-        static constexpr std::string comment = "DESCRIPTION";
-        static constexpr std::string trackNumber = "TRACKNUMBER";
-        static constexpr std::string trackTotal = "TRACKTOTAL";
-        static constexpr std::string discNumber = "DISCNUMBER";
-        static constexpr std::string discTotal = "DISCTOTAL";
-        static constexpr std::string composer = "COMPOSER";
-        static constexpr std::string albumArtist = "ALBUMARTIST";
-        static constexpr std::string bpm = "BPM";
-        static constexpr std::string rating = "RATING";
-        static constexpr std::string lyrics = "LYRICS";
-        static constexpr std::string compilation = "COMPILATION";
-        static constexpr std::string isrc = "ISRC";
-        static constexpr std::string mcn = "MCN";
-        static constexpr std::string musicBrainzReleaseID = "MUSICBRAINZ_ALBUMID";
-        static constexpr std::string musicBrainzRecordingID = "MUSICBRAINZ_TRACKID";
+        static constexpr const char* title = "TITLE";
+        static constexpr const char* album = "ALBUM";
+        static constexpr const char* artist = "ARTIST";
+        static constexpr const char* genre = "GENRE";
+        static constexpr const char* releaseDate = "DATE";
+        static constexpr const char* comment = "DESCRIPTION";
+        static constexpr const char* trackNumber = "TRACKNUMBER";
+        static constexpr const char* trackTotal = "TRACKTOTAL";
+        static constexpr const char* discNumber = "DISCNUMBER";
+        static constexpr const char* discTotal = "DISCTOTAL";
+        static constexpr const char* composer = "COMPOSER";
+        static constexpr const char* albumArtist = "ALBUMARTIST";
+        static constexpr const char* bpm = "BPM";
+        static constexpr const char* rating = "RATING";
+        static constexpr const char* lyrics = "LYRICS";
+        static constexpr const char* compilation = "COMPILATION";
+        static constexpr const char* isrc = "ISRC";
+        static constexpr const char* mcn = "MCN";
+        static constexpr const char* musicBrainzReleaseID = "MUSICBRAINZ_ALBUMID";
+        static constexpr const char* musicBrainzRecordingID = "MUSICBRAINZ_TRACKID";
         // no key for picture needed
-        static constexpr std::string blockPicture = "METADATA_BLOCK_PICTURE";
-        static constexpr std::string coverArt = "COVERART";
+        static constexpr const char* blockPicture = "METADATA_BLOCK_PICTURE";
+        static constexpr const char* coverArt = "COVERART";
 
         using StringProperty = std::optional<std::string> AudioMetadata::*;
         static std::unordered_map<std::string, StringProperty, std::hash<std::string>> stringPropertiesByKeys() {
